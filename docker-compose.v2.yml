@@ -1,8 +1,8 @@
-#version: "3"
-
 services:
   php:
     image: sanechek/php:${PHP_VERSION}
+    networks:
+      - web
     volumes:
       - ~/.composer-docker/cache:/var/www/.composer/cache
       - ./:/app
@@ -33,6 +33,9 @@ services:
 
   db:
     image: postgres:13.2-alpine
+    networks:
+      - web
+    container_name: db
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
@@ -41,7 +44,7 @@ services:
       - ./docker/db/initdb.d:/docker-entrypoint-initdb.d
       - db_data:/var/lib/postgresql/data
     ports:
-      - 127.0.0.1:${DOCKER_DB_PORT}:5432
+      - "5432:5432"
     restart: ${RESTART}
 
   node:
@@ -74,4 +77,5 @@ volumes:
 
 networks:
   web:
+    driver: bridge
     external: true
