@@ -1,0 +1,17 @@
+
+h1 {
+    text-align: center;
+}
+
+.nav-link {
+    margin-left: 10px;
+    color: black;
+}
+
+.nav-link:hover {
+    color: #0070ff !important;
+}
+
+.city-list{
+    display: none;
+}

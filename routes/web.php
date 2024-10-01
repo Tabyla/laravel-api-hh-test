@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,14 @@ Route::domain(env('ADMIN_DOMAIN', 'backend.' . env('DOMAIN', false)))
         require __DIR__ . '/admin.php';
     });
 
-Route::get('/', [SiteController::class, 'index'])->name('/');
+Route::get('/', [SiteController::class, 'index'])->name('index');
+Route::get('/about', [SiteController::class, 'about'])->name('about');
+Route::get('/news', [SiteController::class, 'news'])->name('news');
+
+Route::group(['prefix' => '{alias}'], function () {
+    Route::get('/', [CityController::class, 'show'])->name('city.show');
+    Route::get('/news', [SiteController::class, 'news'])->name('city.news');
+    Route::get('/about', [SiteController::class, 'about'])->name('city.about');
+});
+
 
